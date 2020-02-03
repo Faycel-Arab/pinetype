@@ -7,14 +7,17 @@ admin.initializeApp();
 
 export const getNoteById = 
 functions.https.onRequest(async (request, response) => {
+    
     const noteId = request.query?.noteId || "none";
     try {
         const snapshot = await admin.firestore().doc(`notes/${noteId}`).get()
-        const data: = snapshot.data();
+        const data = snapshot.data();
+        response.set('Access-Control-Allow-Origin', '*');
         response.send(data);
     }
     catch(error){
         console.log(error);
+        response.set('Access-Control-Allow-Origin', '*');
         response.status(500).send(error)
     }
 });
